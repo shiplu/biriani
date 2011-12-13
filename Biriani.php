@@ -179,7 +179,6 @@ class Biriani {
         $this->data = $this->extract_data($resp);
     }
 
-
     public function extract_data(Biriani_Response $response) {
         /* @var $extractor IExtractable */
         $extractor = $this->get_extractor($response);
@@ -192,30 +191,30 @@ class Biriani {
      * @access public
      */
     public function get_extractor(Biriani_Response $response) {
- 
+
         // determining which service can extract data
         $class = null;
         /* @var $biriani IExtractable */
-        foreach(Biriani_Registry::$services as $biriani){
-            
-            if($biriani::can_extract($response)){
-                $class= $biriani;
+        foreach (Biriani_Registry::$services as $biriani) {
+
+            if ($biriani::can_extract($response)) {
+                $class = $biriani;
                 break;
             }
         }
-        
+
         // no class found. create exception
-        if($class ==null){
+        if ($class == null) {
             throw new BirianiMatchedExtractableNotFoundException(
                     "No matching extractable found for supplied Response: "
-                    .substr($response->get_content(),0, 100)
+                    . substr($response->get_content(), 0, 100)
                     , 1110);
         }
-        
+
         // create extractors instance
         /* @var $extractor IExtractable */
         $extractor = new $class();
-        
+
         return $extractor;
     }
 
@@ -246,4 +245,37 @@ class Biriani {
 
 }
 
+
+/**
+ * Autoload function for Biriani
+ * @param type $class class name
+ * @return string file path containing class
+ */
+function biriani_autoload($class) {
+
+    $class_map = array(
+        
+        // Core Biriani classes
+        "Biriani_Data" => "Biriani_Data.php",
+        "Biriani_Extractable_Abstract" => "Biriani_Extractable_Abstract.php",
+        "Biriani_HTTPTransaction" => "Biriani_HTTPTransaction.php",
+        "Biriani_Registry" => "Biriani_Registry.php",
+        "Biriani_Request" => "Biriani_Request.php",
+        "Biriani_Response" => "Biriani_Response.php",
+        "BirianiUncompletedRequestObjectException" => "Exceptions.php",
+        "BirianiMatchedExtractableNotFoundException" => "Exceptions.php",
+        "BirianiRequiredExtensionNotFoundException" => "Exceptions.php",
+        "IDataFillable" => "IDataFillable.php",
+        "IExtractable" => "IExtractable.php",
+        
+        //  Extractables ..
+        "FeedBiriani" => "FeedBiriani.php",
+        "TwitterBiriani" => "TwitterBiriani.php",
+        "WordpressBiriani" => "WordpressBiriani.php"
+    );
+
+    return $class_map[$class];
+}
+
+spl_autoload_register("biriani_autoload");
 ?>
