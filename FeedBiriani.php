@@ -1,12 +1,21 @@
 <?php
 
 /**
+ * @author Shiplu Mokaddim <shiplu@mokadd.im>
+ * @copyright 2012 Shiplu Mokaddim
+ * @package Biriani
+ */
+
+/**
  * class FeedBiriani
  * 
  */
-class FeedBiriani extends Biriani_Extractable_Abstract  
-            
-{
+
+require_once 'IExtractable.php';
+require_once 'Biriani_Extractable_Abstract.php';
+
+class FeedBiriani extends Biriani_Extractable_Abstract {
+    
     public function __construct(Biriani_Response $resp) {
         parent::__construct($resp);
     }

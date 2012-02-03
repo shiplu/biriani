@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @author Shiplu Mokaddim <shiplu@mokadd.im>
+ * @copyright 2012 Shiplu Mokaddim
+ * @package Biriani
+ */
+
+/**
  * class Biriani_HTTPTransaction
  * 
  */
