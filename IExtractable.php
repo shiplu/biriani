@@ -15,6 +15,7 @@ interface IExtractable {
      * @return array extracted data in an associative array
      * @abstract
      * @access public
+     * @return Biriani_Data
      */
     public function extract();
     
