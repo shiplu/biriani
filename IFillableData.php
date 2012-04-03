@@ -8,7 +8,7 @@
 /**
  * implentors will be able to fill themselves with provided data.
  */
-interface IDataFillable {
+interface IFillableData extends IData{
 
     public function fill($data);
 }
