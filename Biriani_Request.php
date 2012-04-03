@@ -105,6 +105,7 @@ class Biriani_Request extends Biriani_HTTPTransaction {
         );
         $cv = curl_version();
         $this->set_header("User-Agent", "Biriani/1.0 (PHP/" . PHP_VERSION . "  php5-curl/{$cv['version']})");
+        
     }
 
     public function save_headers($ch, $header) {
@@ -168,9 +169,18 @@ class Biriani_Request extends Biriani_HTTPTransaction {
         if (count($a_headers) > 0)
             curl_setopt($ch, CURLOPT_HTTPHEADER, $a_headers);
 
-
-        $this->response->set_content(curl_exec($ch));
-
+        $content = curl_exec($ch);
+        
+        if(curl_errno($ch)){
+            throw new Exception(
+                    "Curl Exception: ". curl_error($ch),
+                    curl_errno($ch)
+            );
+        }
+        
+        $this->response->set_content($content);
+        $this->response->set_url($this->get_url());
+        
         if (curl_errno($ch) > 0) {
             trigger_error("Curl Error: " . curl_error($ch));
             print_r(curl_getinfo($ch));
