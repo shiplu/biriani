@@ -16,13 +16,13 @@ class Biriani_HTTPTransaction {
      * 
      * @access protected
      */
-    protected $url;
+    protected $url="";
 
     /**
      * 
      * @access protected
      */
-    protected $headers;
+    protected $headers = array();
 
     /**
      * 
@@ -47,6 +47,7 @@ class Biriani_HTTPTransaction {
      * @access public
      */
     public function get_header($name) {
+        $name = strtoupper($name);
         return isset($this->headers[$name]) ? $this->headers[$name] : "";
     }
 
@@ -109,7 +110,6 @@ class Biriani_HTTPTransaction {
     public function __construct() {
         $this->clear_headers();
         $this->set_content("");
-        $this->url = "";
     }
 
 }
