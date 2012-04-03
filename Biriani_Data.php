@@ -5,51 +5,50 @@
  * @package Biriani
  */
 
-class Biriani_Data implements IDataFillable {
+class Biriani_Data implements IFillableData {
 
-    protected $data;
     protected $filled;
 
-    const BIRIANI_DATA_FEED=0;
-    const BIRIANI_DATA_AUDIO=1;
-    const BIRIANI_DATA_VIDEO=2;
-    const BIRIANI_DATA_HTML=3;
-    const BIRIANI_DATA_XML=4;
-    const BIRIANI_DATA_FLASH=5;
+    protected $title;
+    protected $link;
+    protected $description;
+    protected $date;
 
-    public $title;
-    public $desc;
-    public $short_desc;
-    public $last_modified;
-
-    /**
-     * @var string. Value can be audio, video
-     */
-    public $data_type;
-
-    public function get_all_data() {
-        return $this->data;
+    public function get_date() {
+        return $this->date;
+    }
+    public function get_description() {
+        return $this->description;
+    }
+    public function get_link() {
+        return $this->link;
     }
 
+    public function get_title() {
+        return $this->title;
+    }
+    /**
+     *
+     * @param type $data 
+     */
     public function fill($data) {
         // making sure that once a data is filled
         // the object can not be re-initialized
         if (!$this->filled) {
             if (is_array($data)) {
-                $this->data = $data;
+                foreach(array("title", "link", "description", "date") as $prop){
+                    $this->$prop = isset($data[$prop])? $data[$prop]: ' - ';
+                }
                 $this->filled = true;
             }
         }
     }
 
-    public function __construct($data) {
-        $this->data = array();
+    public function __construct($data=null){
         $this->filled = false;
-        $this->fill($data);
-    }
-
-    public function __get($name) {
-        return isset($this->data[$name]) ? $this->data[$name] : '';
+        if(!is_null($data) && is_array($data)){
+            $this->fill($data);
+        }
     }
 
 }
