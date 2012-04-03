@@ -16,25 +16,26 @@ class Biriani {
 
     /**
      * 
-     * @access public
+     * @access private
      */
-    public $cache_duration = 3600;
-
-    /**
-     * 
-     * @access public
-     */
-    public $cache_location = "/tmp";
-
-    /**
-     * 
-     * @access public
-     */
-    public $url;
+    private $cache_duration = 3600;
 
     /**
      * 
      * @access private
+     */
+    private $cache_location = "/tmp";
+
+    /**
+     * 
+     * @access private
+     */
+    private $url;
+
+    /**
+     * 
+     * @access private
+     * @var Biriani_Data
      */
     private $data;
 
@@ -110,9 +111,8 @@ class Biriani {
 // end of member function get_url
 
     /**
-     * 
-     *
-     * @return 
+     * Parsed data
+     * @return Biriani_Data
      * @access public
      */
     public function fetch_data() {
@@ -138,9 +138,20 @@ class Biriani {
      * @param string $file  file name where cache exists
      */
     public function is_cache_valid($file) {
-        return time() - filemtime($file) < $this->get_cache_duration();
+        if(file_exists($file)){
+            return time() - filemtime($file) < $this->get_cache_duration();
+        }else{
+            return false;
+        }
     }
 
+    /**
+     * Alias of Biriani::is_cache_valid
+     * @see Biriani::is_cache_valid
+     */
+    public function cache_is_valid($file){
+        return $this->is_cache_valid($file);
+    }
     /**
      * Gets response from cache
      * @param string $file cache file
@@ -155,7 +166,7 @@ class Biriani {
      * @param Biriani_Response response object
      */
     public function set_cached_response(Biriani_Response $response) {
-        file_put_contents(serialize($response));
+        file_put_contents($this->get_cache_file_name(), serialize($response));
     }
 
 // end of member function fetch_data
@@ -169,7 +180,7 @@ class Biriani {
     public function execute() {
         $filename = $this->get_cache_file_name($this->url);
         $resp = null;
-        if ($this->cache_is_valid($filename)) {
+        if ($this->is_cache_valid($filename)) {
             /* @var $resp Biriani_Response */
             $resp = $this->get_cached_response($filename);
         } else {
@@ -181,10 +192,15 @@ class Biriani {
             $this->set_cached_response($resp);
         }
         // Now we got response
-        // lets process it 
+        // lets get the data and save it.
         $this->data = $this->extract_data($resp);
     }
 
+    /**
+     * Gets the data from response.
+     * @param Biriani_Response $response response to parse
+     * @return IData
+     */
     public function extract_data(Biriani_Response $response) {
         /* @var $extractor IExtractable */
         $extractor = $this->get_extractor($response);
@@ -201,7 +217,7 @@ class Biriani {
         // determining which service can extract data
         $class = null;
         /* @var $biriani IExtractable */
-        foreach (Biriani_Registry::$services as $biriani) {
+        foreach (Biriani_Registry::$services as $biriani => $biriani_file) {
 
             if ($biriani::can_extract($response)) {
                 $class = $biriani;
@@ -218,9 +234,7 @@ class Biriani {
         }
 
         // create extractors instance
-        /* @var $extractor IExtractable */
-        $extractor = new $class();
-
+        $extractor = new $class($response);
         return $extractor;
     }
 
@@ -257,30 +271,40 @@ class Biriani {
  * @param type $class class name
  * @return string file path containing class
  */
-function biriani_autoload($class) {
+function biriani_autoload($cname) {
 
-    $class_map = array(
-        
-        // Core Biriani classes
-        "Biriani_Data" => "Biriani_Data.php",
-        "Biriani_Extractable_Abstract" => "Biriani_Extractable_Abstract.php",
-        "Biriani_HTTPTransaction" => "Biriani_HTTPTransaction.php",
-        "Biriani_Registry" => "Biriani_Registry.php",
-        "Biriani_Request" => "Biriani_Request.php",
-        "Biriani_Response" => "Biriani_Response.php",
-        "BirianiUncompletedRequestObjectException" => "Exceptions.php",
-        "BirianiMatchedExtractableNotFoundException" => "Exceptions.php",
-        "BirianiRequiredExtensionNotFoundException" => "Exceptions.php",
-        "IDataFillable" => "IDataFillable.php",
-        "IExtractable" => "IExtractable.php",
-        
-        //  Extractables ..
-        "FeedBiriani" => "FeedBiriani.php",
-        "TwitterBiriani" => "TwitterBiriani.php",
-        "WordpressBiriani" => "WordpressBiriani.php"
-    );
+    if(class_exists($cname)){
+        return true;
+    }else{
+        $class_map = array(
 
-    return $class_map[$class];
+            // Core Biriani classes
+            "Biriani_Data" => "Biriani_Data.php",
+            "Biriani_Extractable_Abstract" => "Biriani_Extractable_Abstract.php",
+            "Biriani_HTTPTransaction" => "Biriani_HTTPTransaction.php",
+            "Biriani_Registry" => "Biriani_Registry.php",
+            "Biriani_Request" => "Biriani_Request.php",
+            "Biriani_Response" => "Biriani_Response.php",
+            "BirianiUncompletedRequestObjectException" => "Exceptions.php",
+            "BirianiMatchedExtractableNotFoundException" => "Exceptions.php",
+            "BirianiRequiredExtensionNotFoundException" => "Exceptions.php",
+            "IFillableData" => "IFillableData.php",
+            "IExtractable" => "IExtractable.php",
+            "IData" => "IData.php",
+        );
+        
+        // Add Recipes
+        $recipes = array_map('basename', glob(__DIR__.'/recipes/*Biriani.php'));
+        foreach($recipes as $recipe){
+            $class_map[substr($recipe, 0, -4)] = 'recipes/'. $recipe;
+        }
+        
+        $fname = dirname(__FILE__).DIRECTORY_SEPARATOR. $class_map[$cname];
+        
+        // including the file
+        include $fname;
+        return true;
+    }
 }
 
 spl_autoload_register("biriani_autoload");

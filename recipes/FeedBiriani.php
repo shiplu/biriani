@@ -10,10 +10,6 @@
  * class FeedBiriani
  * 
  */
-
-require_once 'IExtractable.php';
-require_once 'Biriani_Extractable_Abstract.php';
-
 class FeedBiriani extends Biriani_Extractable_Abstract {
     
     public function __construct(Biriani_Response $resp) {
@@ -21,7 +17,7 @@ class FeedBiriani extends Biriani_Extractable_Abstract {
     }
     
     public static function can_extract(Biriani_Response $response) {
-        $content_type = $response->get_header('CONTENT-TYPE');
+        $content_type = $response->get_header('Content-Type');
         preg_match('#(\w+/\w+)#', $content_type, $m);
         $content_type = strtolower($m[1]);
         $feed_mime_types = array(
