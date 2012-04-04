@@ -12,7 +12,7 @@
 class AtomFeedBiriani extends FeedBiriani {
 
     public function extract() {
-        $xml = simplexml_load_string($this->response->get_content());
+        $xml = $this->load_simplexml();
         $title = (string) $xml->entry[0]->title;
         $description = (string) $xml->entry[0]->summary;
 

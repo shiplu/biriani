@@ -12,7 +12,7 @@
 class RSSFeedBiriani extends FeedBiriani {
 
     public function extract() {
-        $xml = simplexml_load_string($this->response->get_content());
+        $xml = $this->load_simplexml();
         if (isset($xml->item[0])) {
             $item = $xml->item[0];
         } elseif (isset($xml->channel->item[0])) {

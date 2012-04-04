@@ -12,7 +12,7 @@
 class HTMLBiriani extends Biriani_Extractable_Abstract {
 
     public function extract() {
-        $this->dom->loadHTML($this->response->get_content());
+        $this->load_dom_html();
         
         // parsing the title of the document.
         $title = $this->dom->getElementsByTagName('title')->item(0)->textContent;
