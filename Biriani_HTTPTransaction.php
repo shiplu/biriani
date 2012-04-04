@@ -41,9 +41,8 @@ class Biriani_HTTPTransaction {
     }
 
     /**
-     * 
-     *
-     * @return string
+     * Gets a header
+     * @return string the header. If not found an empty string is returned
      * @access public
      */
     public function get_header($name) {

@@ -171,6 +171,9 @@ class Biriani_Request extends Biriani_HTTPTransaction {
 
         $content = curl_exec($ch);
         
+        // converting to utf8 otherwise utf-8 encoded data will shown in '?' 
+        $content = utf8_encode($content);
+        
         if(curl_errno($ch)){
             throw new Exception(
                     "Curl Exception: ". curl_error($ch),
