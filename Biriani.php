@@ -228,8 +228,8 @@ class Biriani {
         // no class found. create exception
         if ($class == null) {
             throw new BirianiMatchedExtractableNotFoundException(
-                    "No matching extractable found for supplied Response: "
-                    . substr($response->get_content(), 0, 100)
+                    "No matching extractable found for supplied url: "
+                    . $response->get_url()
                     , 1110);
         }
 
