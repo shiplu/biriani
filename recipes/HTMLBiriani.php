@@ -12,9 +12,8 @@
 class HTMLBiriani extends Biriani_Extractable_Abstract {
 
     public function extract() {
-
         $this->dom->loadHTML($this->response->get_content());
-
+        
         // parsing the title of the document.
         $title = $this->dom->getElementsByTagName('title')->item(0)->textContent;
 
@@ -60,26 +59,12 @@ class HTMLBiriani extends Biriani_Extractable_Abstract {
 
 
 
-        /// Now extracting date
-        $date = time(); // default date. If we can not modify it later
-        // this default value will be used.
-        
-        $header_date = $this->response->get_header('Last-Modified');
-        if (!empty($header_date)) {
-            $date = $header_date;
-            $date = new DateTime($date);
-            $date = $date->getTimestamp();
-        }
-
-
-        $this->data->fill(array(
-            'title' => $title,
-            'description' => $desc,
-            'link' => $this->response->get_url(),
-            'date' => $date
-        ));
-        
-        return $this->data;
+        return $this->cache_data(array(
+                    'title' => $title,
+                    'description' => $desc,
+                    'link' => $this->response->get_url(),
+                    'date' => $this->get_date_from_header()
+                ));
     }
 
     public static function can_extract(Biriani_Response $response) {
