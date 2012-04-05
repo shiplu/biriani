@@ -4,7 +4,7 @@
  * @copyright 2012 Shiplu Mokaddim
  * @package BirianiExamples
  */
-require_once ("../Biriani.php");
+
 
 $urls = array(
     'http://www.youtube.com/watch?v=u_sbC7Z0Lcg&feature=related',
@@ -26,8 +26,7 @@ $urls = array(
 foreach ($urls as $url) {
     $b = new Biriani();
     $b->set_url($url);
-    $b->set_cache_duration(600);
-    $b->set_cache_location('/tmp');
+    Biriani_Cache::setup(3600, '/tmp');
     $b->execute();
     $data = $b->fetch_data();
 
@@ -37,7 +36,6 @@ foreach ($urls as $url) {
     echo "\tDate = " . gmdate(DATE_ISO8601, $data->get_date()) . "\n";
     $dt = new DateTime("@" . $data->get_date());
     echo $dt->diff(new DateTime("now"))->format("\t%H hours %I minutes %s seconds ago\n");
-    
-//echo "On ". $date
+
 }
 ?>

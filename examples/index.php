@@ -1,6 +1,7 @@
 <?php
 
 require_once "Console/Table.php";
+require_once '../bootstrap.php';
 
 $Table  = new Console_Table();
 $Table->setHeaders(array('Script name', 'Execution time in seconds'));
