@@ -1,7 +1,7 @@
 <?php
 
 require_once "Console/Table.php";
-require_once '../bootstrap.php';
+require_once dirname(dirname(__FILE__)).'/bootstrap.php';
 
 $Table  = new Console_Table();
 $Table->setHeaders(array('Script name', 'Execution time in seconds'));
@@ -16,7 +16,7 @@ function sort_by_modification($a, $b){
 }
 
 // get all the php files in current directory
-$files = glob("*.php");
+$files = glob(dirname(__FILE__)."/*.php");
 
 // sort them by file modification date
 usort($files , 'sort_by_modification');
