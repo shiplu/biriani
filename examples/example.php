@@ -19,16 +19,15 @@ $urls = array(
     'http://forum.projanmo.com/topic35323.html',
     'http://forum.projanmo.com/search-recent.html',
     'http://www.rongmohol.com/feed-rss.xml',
-    'http://www.rongmohol.com/'
+    'http://www.rongmohol.com/',
+    'http://twitter.com/shiplu',
     
 );
 
 foreach ($urls as $url) {
     $b = new Biriani();
-    $b->set_url($url);
-    Biriani_Cache::setup(3600, '/tmp');
-    $b->execute();
-    $data = $b->fetch_data();
+    $b->setup_cache(3600);
+    $data = $b->extract_data($url);
 
     echo "URL=$url\n";
     echo "\tTitle = " . trim($data->get_title()) . "\n";

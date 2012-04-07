@@ -12,20 +12,17 @@ class Biriani {
     
     /**
      * Url of the resource that'll be operating on
-     * @access private
      */
     private $url;
 
     /**
      * After execution this holds the extracted Biriani_Data
-     * @access private
      * @var Biriani_Data
      */
     private $data;
 
     /**
      * @param string url 
-     * @access public
      */
     public function set_url($url) {
         $this->url = $url;
@@ -34,7 +31,6 @@ class Biriani {
 
     /**
      * @return string
-     * @access public
      */
     public function get_url() {
         return $this->url;
@@ -43,7 +39,6 @@ class Biriani {
     /**
      * Parsed data
      * @return Biriani_Data
-     * @access public
      */
     public function fetch_data() {
         return $this->data;
@@ -52,7 +47,6 @@ class Biriani {
     /**
      * Get the resource and parse the Data from content.
      * @return Biriani_Data
-     * @access public
      */
     public function execute() {
         
@@ -71,6 +65,7 @@ class Biriani {
         // Now we got response
         // lets get the data and save it.
         $this->data = $this->extract_data($resp);
+        return $this->data;
     }
 
     /**
@@ -87,7 +82,6 @@ class Biriani {
     /**
      * @param Biriani::Biriani_Response response Response object
      * @return Biriani::IExtractable
-     * @access public
      */
     public function get_extractor(Biriani_Response $response) {
 
@@ -113,6 +107,24 @@ class Biriani {
         // create extractors instance
         $extractor = new $class($response);
         return $extractor;
+    }
+    
+    /**
+	 * Setup Caching
+	 * @param int $duration duration in seconds before it get invalidated
+	 * @param string $cache_save_path a directory where to cached data will be stored
+     */
+    public function setup_cache($duration, $cache_save_path = '/tmp'){
+        Biriani_Cache::setup($duration, $cache_save_path);
+    }
+    
+    /**
+     * All in one interface to get data from a url
+     * @param string $url location from where data should be grabbed
+     */
+    public function extract_data($url){
+        $this->set_url($url);
+        return $this->execute();
     }
 }
 
