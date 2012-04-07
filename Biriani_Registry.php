@@ -18,6 +18,7 @@ class Biriani_Registry {
      * @var array
      */
     public static $services = array(
+        'TwitterBiriani' => 'TwitterBiriani.php',
         'FeedBiriani' => 'FeedBiriani.php',
         'HTMLBiriani' => 'HTMLBiriani.php'
     );

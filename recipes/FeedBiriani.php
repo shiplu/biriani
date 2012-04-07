@@ -91,12 +91,7 @@ class FeedBiriani extends Biriani_Extractable_Abstract {
             $object = new $class_name($this->response);
             return $object->extract();
         } else {
-            return $this->cache_data(array(
-                        'title' => 'Unsupported Feed Format',
-                        'description' => 'Unsupported Feed format provided',
-                        'date' => time(),
-                        'link' => $this->response->get_url()
-                    ));
+            return $this->cache_data('Unsupported Feed Format', 'Unsupported Feed format provided', time(), $this->response->get_url());
         }
     }
 

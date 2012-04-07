@@ -59,12 +59,8 @@ class HTMLBiriani extends Biriani_Extractable_Abstract {
 
 
 
-        return $this->cache_data(array(
-                    'title' => $title,
-                    'description' => $desc,
-                    'link' => $this->response->get_url(),
-                    'date' => $this->get_date_from_header()
-                ));
+        return $this->cache_data($title, $desc, $this->get_date_from_header(), 
+                $this->response->get_url());
     }
 
     public static function can_extract(Biriani_Response $response) {

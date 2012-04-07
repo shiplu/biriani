@@ -27,23 +27,39 @@ class RSSFeedBiriani extends FeedBiriani {
                     10
             );
         }
-        $title = (string) $item->title;
-        $description = (string) $item->description;
-        $link = (string) $item->link;
+        
+        // try DOM interface first if it fails use the simple xml
+        $dom_item = dom_import_simplexml($item);
 
-        $date = "";
-        if (isset($item->pubDate)) {
-            $date = strtotime((string) $item->pubDate);
+        
+        if ($dom_item) {
+            $title = $dom_item->getElementsByTagName('title')
+                            ->item(0)->textContent;
+            $description = $dom_item->getElementsByTagName('description')
+                            ->item(0)->textContent;
+            $link = $dom_item->getElementsByTagName('link')
+                            ->item(0)->textContent;
+
+            $date = "";
+            if ($dom_item->getElementsByTagName('pubDate')
+                    ->length > 0) {
+                $date = strtotime($dom_item->getElementsByTagName('pubDate')
+                                ->item(0)->textContent);
+            }
         } else {
+            $title = (string) $item->title;
+            $description = (string) $item->description;
+            $link = (string) $item->link;
+
+            $date = "";
+            if (isset($item->pubDate)) {
+                $date = strtotime((string) $item->pubDate);
+            }
+        }
+        if ($date == "") {
             $date = $this->get_date_from_header();
         }
-
-        return $this->cache_data(array(
-                    'title' => $title,
-                    'description' => $description,
-                    'date' => $date,
-                    'link' => $link
-                ));
+        return $this->cache_data($title, $description, $date, $link);
     }
 
 }

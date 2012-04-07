@@ -53,12 +53,7 @@ class AtomFeedBiriani extends FeedBiriani {
             $link = $this->response->get_url();
         }
 
-        return $this->cache_data(array(
-                    'title' => $title,
-                    'description' => $description,
-                    'date' => $date,
-                    'link' => $link
-                ));
+        return $this->cache_data($title, $description, $date, $link);
     }
 
 }
