@@ -43,7 +43,7 @@ class Biriani_Cache {
 	 * @param mixed $value value of the object. It can be any type
 	 */
 	public static function set($key, $value) {
-		file_put_contents(self::filename($key), self::box($value), FILE_BINARY);
+		file_put_contents(self::filename($key), self::box($value));
 	}
 
 	/**
