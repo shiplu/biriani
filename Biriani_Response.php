@@ -32,7 +32,7 @@ class Biriani_Response extends Biriani_HTTPTransaction {
 
     public function set_content($content) {
         // checking if its an utf data.
-        if (preg_match("#charset\s*=\s*utf-8#", $this->get_header('CONTENT-TYPE')))
+        if (preg_match("#charset\s*=\s*utf-8#i", $this->get_header('CONTENT-TYPE')))
             $this->content = utf8_decode($content);
         else
             $this->content = $content;
