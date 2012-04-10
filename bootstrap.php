@@ -30,7 +30,7 @@ function biriani_autoload($cname) {
         );
         
         // Add Recipes
-        $recipes = array_map('basename', glob(__DIR__.'/recipes/*Biriani.php'));
+        $recipes = array_map('basename', glob(dirname(__FILE__).'/recipes/*Biriani.php'));
         foreach($recipes as $recipe){
             $class_map[substr($recipe, 0, -4)] = 'recipes/'. $recipe;
         }
