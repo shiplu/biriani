@@ -52,8 +52,7 @@ class Biriani_Cache {
 	 * @return mixed value of the object. It can be any type
 	 */
 	public static function get($key) {
-		return self::unbox(file_get_contents(
-		self::filename($key), FILE_BINARY));
+		return self::unbox(file_get_contents(self::filename($key)));
 	}
 
 	/**
