@@ -27,7 +27,7 @@ $urls = array(
 foreach ($urls as $url) {
     $b = new Biriani();
     $b->setup_cache(3600);
-    $data = $b->extract_data($url);
+    $data = $b->extract($url);
 
     echo "URL=$url\n";
     echo "\tTitle = " . trim($data->get_title()) . "\n";
