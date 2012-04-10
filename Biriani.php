@@ -90,7 +90,7 @@ class Biriani {
         /* @var $biriani IExtractable */
         foreach (Biriani_Registry::$services as $biriani => $biriani_file) {
 
-            if ($biriani::can_extract($response)) {
+            if (call_user_func(array($biriani, 'can_extract'), $response)){
                 $class = $biriani;
                 break;
             }
@@ -122,7 +122,7 @@ class Biriani {
      * All in one interface to get data from a url
      * @param string $url location from where data should be grabbed
      */
-    public function extract_data($url){
+    public function extract($url){
         $this->set_url($url);
         return $this->execute();
     }
