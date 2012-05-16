@@ -12,16 +12,6 @@
  */
 class FeedBiriani extends Biriani_Extractable_Abstract {
 
-    public function __construct(Biriani_Response $resp) {
-        parent::__construct($resp);
-        libxml_use_internal_errors(true);
-    }
-
-    public function __destruct() {
-        libxml_use_internal_errors(false);
-        parent::__destruct();
-    }
-
     /**
      * Get the class name from response content
      * @param Biriani_Response $resp response content to take from
@@ -87,7 +77,7 @@ class FeedBiriani extends Biriani_Extractable_Abstract {
 
     public function extract() {
         $class_name = self::get_feed_class_name($this->response);
-        if (self::can_extract($this->response)) {
+        if ($class_name !== false) {
             $object = new $class_name($this->response);
             return $object->extract();
         } else {
