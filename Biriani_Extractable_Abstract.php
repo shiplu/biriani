@@ -68,16 +68,16 @@ abstract class Biriani_Extractable_Abstract implements IExtractable {
      * @param string $title title of the data
      * @param string $description description of the data
      * @param int $date unix timestamp of date in UTC
-     * @param string $url permanent url of the data
+     * @param string $link permanent url of the data
      * @return Biriani_Data instance of Biriani_Data after filling with the data
      */
 
-    protected function cache_data($title, $description, $date, $url, $extra=null) {
+    protected function cache_data($title, $description, $date, $link, $extra=null) {
         // build minimal array to use
         $data = array(
             'title' => $title,
             'description' => $description,
-            'url'=>$url,
+            'link'=>$link,
             'date' => $date
         );
         
