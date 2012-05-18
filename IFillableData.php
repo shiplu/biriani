@@ -10,7 +10,7 @@
  */
 interface IFillableData extends IData{
 
-    public function fill($data);
+    function fill($data);
 }
 
 ?>

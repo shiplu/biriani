@@ -10,10 +10,10 @@
  * @author shiplu
  */
 interface IData {
-    public function get_title();
-    public function get_link();
-    public function get_description();
-    public function get_date();
+    function get_title();
+    function get_link();
+    function get_description();
+    function get_date();
 }
 
 ?>
