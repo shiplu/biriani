@@ -24,7 +24,7 @@ class Biriani {
     /**
      * @param string url 
      */
-    public function set_url($url) {
+    protected function set_url($url) {
         $this->url = $url;
     }
 
@@ -40,7 +40,7 @@ class Biriani {
      * Parsed data
      * @return Biriani_Data
      */
-    public function fetch_data() {
+    public function get_cached_data() {
         return $this->data;
     }
 
@@ -48,7 +48,7 @@ class Biriani {
      * Get the resource and parse the Data from content.
      * @return Biriani_Data
      */
-    public function execute() {
+    protected function execute() {
         
         $resp = null;
         if (Biriani_Cache::valid($this->url)) {
@@ -73,7 +73,7 @@ class Biriani {
      * @param Biriani_Response $response response to parse
      * @return IData
      */
-    public function extract_data(Biriani_Response $response) {
+    protected function extract_data(Biriani_Response $response) {
         /* @var $extractor IExtractable */
         $extractor = $this->get_extractor($response);
         return $extractor->extract();
@@ -83,7 +83,7 @@ class Biriani {
      * @param Biriani::Biriani_Response response Response object
      * @return Biriani::IExtractable
      */
-    public function get_extractor(Biriani_Response $response) {
+    protected function get_extractor(Biriani_Response $response) {
 
         // determining which service can extract data
         $class = null;
@@ -121,6 +121,7 @@ class Biriani {
     /**
      * All in one interface to get data from a url
      * @param string $url location from where data should be grabbed
+     * @return Biriani_Data
      */
     public function extract($url){
         $this->set_url($url);
