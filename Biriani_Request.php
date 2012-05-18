@@ -33,7 +33,7 @@ class Biriani_Request extends Biriani_HTTPTransaction {
      * @var Biriani_Response
      */
     protected $response;
-
+    
     /**
      * @param Biriani_Request_Type request_type 
      * @return 
@@ -108,12 +108,11 @@ class Biriani_Request extends Biriani_HTTPTransaction {
         
     }
 
-    public function save_headers($ch, $header) {
+    private function save_headers($ch, $header) {
         $m = array();
         /// Saving http response headers
         if (preg_match('#HTTP/(?P<version>[\d\.]+)\s+(?P<code>\d+)#', $header, $m)) {
             if (isset($m['code'])) {
-                $this->responseStatusCode = $m['code'];
                 $this->response = new Biriani_Response($m['code']);
             }
         } else if (preg_match('#^(?P<name>[^:]+):\s*(?P<value>.*)#', $header, $m)) {

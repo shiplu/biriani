@@ -8,16 +8,13 @@
 
 /**
  * class ExtractableBiriani
- * @property Biriani_Response $response HTTP response
- * @property Biriani_Data $data last extracted data is cached here
- * @property DOMDocument $dom internal DOM manipulation object. Access is protected
  */
 abstract class Biriani_Extractable_Abstract implements IExtractable {
 
     protected $response;
     protected $dom;
     protected $xml;
-    public $data;
+    protected $data;
 
     public function __construct(Biriani_Response $resp) {
         if ($resp instanceof Biriani_Response) {
