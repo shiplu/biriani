@@ -1,0 +1,4 @@
+1. Biriani_Response should be read-only.
+2. Only Biriani_Reqeust should be writable
+3. Biriani_HTTPTransaction should be abstract class
+
