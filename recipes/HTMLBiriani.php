@@ -64,7 +64,7 @@ class HTMLBiriani extends Biriani_Extractable_Abstract {
     }
 
     public static function can_extract(Biriani_Response $response) {
-        if (strpos($response->get_header('CONTENT-TYPE'), 'text/html') !== false) {
+        if (strpos($response->get_headers('CONTENT-TYPE'), 'text/html') !== false) {
             return true;
         } else {
             return false;

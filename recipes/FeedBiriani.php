@@ -33,7 +33,7 @@ class FeedBiriani extends Biriani_Extractable_Abstract {
      * @return string|bool Class name on success. boolean false otherwise
      */
     protected static function get_feed_class_name_from_header(Biriani_Response $resp) {
-        $content_type = $resp->get_header('Content-Type');
+        $content_type = $resp->get_headers('Content-Type');
         if ($content_type) {
             if (strpos(strtolower($content_type), 'application/rss') !== false) {
                 return 'RSSFeedBiriani';

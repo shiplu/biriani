@@ -48,7 +48,7 @@ class Biriani {
      * Get the resource and parse the Data from content.
      * @return Biriani_Data
      */
-    protected function execute() {
+    private function execute() {
         
         $resp = null;
         if (Biriani_Cache::valid($this->url)) {
@@ -73,7 +73,7 @@ class Biriani {
      * @param Biriani_Response $response response to parse
      * @return IData
      */
-    protected function extract_data(Biriani_Response $response) {
+    private function extract_data(Biriani_Response $response) {
         /* @var $extractor IExtractable */
         $extractor = $this->get_extractor($response);
         return $extractor->extract();
@@ -83,7 +83,7 @@ class Biriani {
      * @param Biriani::Biriani_Response response Response object
      * @return Biriani::IExtractable
      */
-    protected function get_extractor(Biriani_Response $response) {
+    private function get_extractor(Biriani_Response $response) {
 
         // determining which service can extract data
         $class = null;

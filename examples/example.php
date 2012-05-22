@@ -1,11 +1,10 @@
 <?php
+
 /**
  * @author Shiplu Mokaddim <shiplu@mokadd.im>
  * @copyright 2012 Shiplu Mokaddim
  * @package BirianiExamples
  */
-
-
 $urls = array(
     'http://www.youtube.com/watch?v=u_sbC7Z0Lcg&feature=related',
     'http://stackoverflow.com/questions/9902968/why-does-math-round0-49999999999999994-return-1?newsletter=1&nlcode=47010%7cd7dc',
@@ -21,9 +20,9 @@ $urls = array(
     'http://www.rongmohol.com/feed-rss.xml',
     'http://www.rongmohol.com/',
     'http://twitter.com/shiplu',
-    
 );
 
+$errors = array();
 foreach ($urls as $url) {
     $b = new Biriani();
     $b->setup_cache(3600);
@@ -36,5 +35,34 @@ foreach ($urls as $url) {
     $dt = new DateTime("@" . $data->get_date());
     echo $dt->diff(new DateTime("now"))->format("\t%H hours %I minutes %s seconds ago\n");
 
+    /*
+    if (!($data->get_date())) {
+        $errors[] = array("get_date" => $url);
+        echo "F";
+    }else
+        echo "*";
+    if (!($data->get_description())) {
+        $errors[] = array("get_description" => $url);
+        echo "F";
+    }else
+        echo "*";
+
+    if (!($data->get_title())) {
+        $errors[] = array("get_title" => $url);
+        echo "F";
+    }else
+        echo "*";
+
+    if (!($data->get_link())) {
+        $errors[] = array("get_link" => $url);
+        echo "F";
+    }else
+        echo "*"; 
+     
+    */
 }
+
+echo "\n";
+
+print_r($errors);
 ?>

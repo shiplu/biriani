@@ -39,10 +39,10 @@ abstract class Biriani_Extractable_Abstract implements IExtractable {
      */
     protected function get_date_from_header($default_date=null) {
         $date = "";
-        if ($this->response->get_header("Last-Modified")) {
-            $date = strtotime($this->response->get_header("Last-Modified"));
-        } elseif ($this->response->get_header("Date")) {
-            $date = strtotime($this->response->get_header("Date"));
+        if ($this->response->get_headers("Last-Modified")) {
+            $date = strtotime($this->response->get_headers("Last-Modified"));
+        } elseif ($this->response->get_headers("Date")) {
+            $date = strtotime($this->response->get_headers("Date"));
         } elseif (!is_null($default_date)) {
             $date = $default_date;
         } else {

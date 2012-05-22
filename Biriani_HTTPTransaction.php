@@ -8,26 +8,11 @@
 
 /**
  * class Biriani_HTTPTransaction
- * 
  */
 class Biriani_HTTPTransaction {
 
-    /**
-     * 
-     * @access protected
-     */
     protected $url="";
-
-    /**
-     * 
-     * @access protected
-     */
     protected $headers = array();
-
-    /**
-     * 
-     * @access protected
-     */
     protected $content = "";
 
     public function get_url() {
@@ -42,32 +27,27 @@ class Biriani_HTTPTransaction {
 
     /**
      * Gets a header
-     * @return string the header. If not found an empty string is returned
+     * @return string the header. If not found an empty string is returned. If no name is supplied all headers are returned
      * @access public
      */
-    public function get_header($name) {
+    public function get_headers($name=null) {
+        if(is_null($name)){
+            return $this->headers;
+        }
         $name = strtoupper($name);
         return isset($this->headers[$name]) ? $this->headers[$name] : "";
     }
 
-// end of member function get_header
-
     /**
-     * 
-     *
      * @param string header set the header
      * @return string
      * @access public
      */
     public function set_header($name, $value) {
-        $this->headers[$name] = $value;
+        $this->headers[strtoupper($name)] = $value;
     }
 
-// end of member function set_header
-
     /**
-     * 
-     *
      * @return string
      * @access public
      */
@@ -75,28 +55,13 @@ class Biriani_HTTPTransaction {
         return $this->content;
     }
 
-// end of member function get_content
-
     /**
-     * 
-     *
      * @param string content 
-
      * @return string
      * @access public
      */
     public function set_content($content) {
         $this->content = $content;
-    }
-
-// end of member function set_content
-
-    /**
-     * get all headers in array
-     * @return array all heades in a associative array
-     */
-    public function get_all_headers() {
-        return $this->headers;
     }
 
     /**
@@ -112,7 +77,4 @@ class Biriani_HTTPTransaction {
     }
 
 }
-
-// end of Biriani_HTTPTransaction
-
 ?>

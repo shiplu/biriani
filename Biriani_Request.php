@@ -118,7 +118,7 @@ class Biriani_Request extends Biriani_HTTPTransaction {
         } else if (preg_match('#^(?P<name>[^:]+):\s*(?P<value>.*)#', $header, $m)) {
             if (isset($m['name']) && isset($m['value'])) {
                 if ($this->response instanceof Biriani_Response)
-                    $this->response->set_header(strtoupper(trim($m['name'])), trim($m['value']));
+                    $this->response->set_header(trim($m['name']), trim($m['value']));
             }
         }
 
@@ -160,7 +160,7 @@ class Biriani_Request extends Biriani_HTTPTransaction {
                 break;
         }
 
-        $headers = $this->get_all_headers();
+        $headers = $this->get_headers();
         $a_headers = array();
         foreach ($headers as $k => $v)
             $a_headers[] = "$k: $v";
