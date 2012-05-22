@@ -36,7 +36,7 @@ Here is an overview on how to use `Biriani`.
 
     $biriani = new Biriani();
     $biriani->set_cache_duration(3600);
-    $biriani->set_cache_locatio('/tmp');
+    $biriani->set_cache_location('/tmp');
     $biriani->set_url("https://github.com/shiplu.atom");
     $biriani->execute();
     $data = $biriani->fetch_data(); // returnes Biriani_Data
