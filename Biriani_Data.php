@@ -27,19 +27,50 @@ class Biriani_Data implements IFillableData {
     public function get_title() {
         return $this->title;
     }
+ 	
+    public function set_date($value) {
+        $this->date = $value;
+    }
+    public function set_description($value) {
+        $this->description = $value;
+    }
+    public function set_link($value) {
+        $this->link = $value;
+    }
+
+    public function set_title($value) {
+        $this->title = $value;
+    }
+    
     /**
-     *
+     * Providing field setters on public interface
+     */
+    public function __set($var, $value){
+    	$var = strtolower($var);
+    	if(in_array($var, array('link', 'title', 'date', 'description'))){
+    		call_user_func(array($this,"set_$var"), $value);
+    	}
+    }
+    
+    /**
+     * Provides filed getters on public interface.
+     */
+	public function __get($var){
+    	$var = strtolower($var);
+    	if(in_array($var, array('link', 'title', 'date', 'description'))){
+    		return call_user_func(array($this,"get_$var"), $value);
+    	}
+    }
+    
+    /**
+     * @todo Eliminate this method
      * @param type $data 
      */
     public function fill($data) {
-        // making sure that once a data is filled
-        // the object can not be re-initialized
-        if (!$this->filled) {
-            if (is_array($data)) {
-                foreach(array("title", "link", "description", "date") as $prop){
-                    $this->$prop = isset($data[$prop])? $data[$prop]: ' - ';
-                }
-                $this->filled = true;
+        if (is_array($data)) {
+            foreach(array("title", "link", "description", "date") as $prop){
+                $value = isset($data[$prop])? $data[$prop]: ' - ';
+                call_user_func(array($this, "set_$prop"), $value);
             }
         }
     }
