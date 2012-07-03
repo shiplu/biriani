@@ -14,7 +14,16 @@ class AtomFeedBiriani extends FeedBiriani {
     public function extract() {
         $xml = $this->load_simplexml();
         $title = (string) $xml->entry[0]->title;
-        $description = (string) $xml->entry[0]->summary;
+
+        if(isset($xml->entry[0]->summary)){
+            $description = (string) ($xml->entry[0]->summary);
+        }else if(isset($xml->entry[0]->description)){
+            $description = (string) ($xml->entry[0]->description);
+        }else if(isset($xml->entry[0]->content)){
+            $description = (string) ($xml->entry[0]->content);
+        }else{
+            $description = (string) ($xml->entry[0]->title);
+        }
 
         $date = "";
         if (isset($xml->entry[0]->updated)) {
@@ -25,23 +34,27 @@ class AtomFeedBiriani extends FeedBiriani {
 
         // parsing link
         $link = "";
+        
         foreach ($xml->entry[0]->link as $link_element) {
-            if (isset($link_element->rel) && isset($link_element->type)
-                    && (string) $link_element->rel == "alternate"
-                    && (string) $link_element->type == "text/html"
-                    && isset($link_element->href)) {
-                $link = (string) $link_element->href;
+            $attribs = $link_element->attributes();
+            $attribs = (Object) $attribs;
+            if (isset($attribs->rel) && isset($attribs->type)
+                    && (string) $attribs->rel == "alternate"
+                    && (string) $attribs->type == "text/html"
+                    && isset($attribs->href)) {
+                $link = (string) $attribs->href;
                 break;
             }
         }
 
         if (empty($link)) {
             foreach ($xml->link as $link_element) {
-                if (isset($link_element->rel) && isset($link_element->type)
-                        && (string) $link_element->rel == "alternate"
-                        && (string) $link_element->type == "text/html"
-                        && isset($link_element->href)) {
-                    $link = (string) $link_element->href;
+                $attribs = (Object) $link_element;
+                if (isset($attribs->rel) && isset($attribs->type)
+                        && (string) $attribs->rel == "alternate"
+                        && (string) $attribs->type == "text/html"
+                        && isset($attribs->href)) {
+                    $link = (string) $attribs->href;
                     break;
                 }
             }
