@@ -13,4 +13,10 @@ class IMDBBiriani extends HTMLBiriani {
 		$data->set_date($time);
 		return $data;
 	}
+    
+    public static function can_extract(Biriani_Response $response) {
+        // imdb does not have https url
+        preg_match("#^http://www.imdb.com/(title|name|list)/([^/]+)#", $response->get_url(), $m);
+        return (is_array($m) && isset($m[1]) && isset($m[2]));
+    }
 }
