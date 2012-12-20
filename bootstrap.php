@@ -27,6 +27,7 @@ function biriani_autoload($cname) {
         "IFillableData" => "IFillableData.php",
         "IExtractable" => "IExtractable.php",
         "IData" => "IData.php",
+        "Biriani_Log" => "Biriani_Log.php",
     );
 
     // Add Recipes
