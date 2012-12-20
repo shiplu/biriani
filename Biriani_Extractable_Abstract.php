@@ -117,6 +117,14 @@ abstract class Biriani_Extractable_Abstract implements IExtractable {
         return $this->dom;
     }
 
-}
+    /**
+     * Checks if any http response can be extracted.
+     * @return boolean true By default any biriani should not be able to extract 
+     * anything unless this method is overrided in the child class
+     * @param $response Biriani_Response Http response to check
+     */
+    public static function can_extract(Biriani_Response $response){
+        return false;
+    }
 
 ?>
