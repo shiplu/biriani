@@ -127,4 +127,5 @@ abstract class Biriani_Extractable_Abstract implements IExtractable {
         return false;
     }
 
+}
 ?>
