@@ -88,9 +88,9 @@ class Biriani {
         // determining which service can extract data
         $class = null;
         /* @var $biriani IExtractable */
-        foreach (Biriani_Registry::$services as $biriani => $biriani_file) {
-
-            if (call_user_func(array($biriani, 'can_extract'), $response)){
+        foreach (array_keys(Biriani_Registry::$services) as $biriani) {
+            $status = call_user_func(array($biriani, 'can_extract'), $response);
+            if ($status==true){
                 $class = $biriani;
                 break;
             }
@@ -105,6 +105,7 @@ class Biriani {
         }
 
         // create extractors instance
+        Biriani_Log::instance()->debug("Extractor = $class");
         $extractor = new $class($response);
         return $extractor;
     }
